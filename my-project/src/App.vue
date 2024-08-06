@@ -1,13 +1,19 @@
-<script setup>
-import Header from './components/Header.vue';
-</script>
-
-
 <template>
-  <main>
-    <Header />
-  </main>
+  <div>
+    <!-- Render the Navbar component -->
+    <Navbar />
+
+    <!-- Render the content for the current route -->
+    <router-view />
+  </div>
 </template>
 
-<style scoped>
-</style>
+<script>
+import Navbar from './components/Navbar.vue';
+
+export default {
+  components: {
+    Navbar
+  }
+};
+</script>
