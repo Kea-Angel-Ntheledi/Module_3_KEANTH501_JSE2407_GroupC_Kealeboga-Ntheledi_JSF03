@@ -29,7 +29,7 @@
               </svg>
             </button>
             <!-- Button to add the product to the cart (no functionality in this snippet) -->
-            <button class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
+            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 transition duration-200">
               Add To Cart +
             </button>
           </div>
