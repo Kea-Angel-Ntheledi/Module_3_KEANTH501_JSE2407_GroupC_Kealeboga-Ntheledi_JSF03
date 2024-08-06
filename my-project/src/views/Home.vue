@@ -43,135 +43,86 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted, computed } from 'vue';
 import Loading from '../components/Loading.vue';
 import ProductGrid from '../components/ProductGrid.vue';
 
-/**
- * @fileoverview This component fetches and displays a list of products with options for filtering, searching, and sorting.
- */
+// Reactive reference to the list of products
+const products = ref([]);
+// Reactive reference to the list of product categories
+const categories = ref([]);
+// Reactive reference to the search query input value
+const searchQuery = ref('');
+// Reactive reference to the selected category filter value
+const selectedCategory = ref('');
+// Reactive reference to the sorting order value
+const sortOrder = ref('');
+// Reactive reference to the loading state
+const loading = ref(true);
 
-export default {
-  components: {
-    Loading,
-    ProductGrid
-  },
-
-  setup() {
-    /**
-     * Reactive reference to the list of products.
-     * @type {import('vue').Ref<Array<Product>>}
-     */
-    const products = ref([]);
-
-    /**
-     * Reactive reference to the list of product categories.
-     * @type {import('vue').Ref<Array<string>>}
-     */
-    const categories = ref([]);
-
-    /**
-     * Reactive reference to the search query input value.
-     * @type {import('vue').Ref<string>}
-     */
-    const searchQuery = ref('');
-
-    /**
-     * Reactive reference to the selected category filter value.
-     * @type {import('vue').Ref<string>}
-     */
-    const selectedCategory = ref('');
-
-    /**
-     * Reactive reference to the sorting order value.
-     * @type {import('vue').Ref<string>}
-     */
-    const sortOrder = ref('');
-
-    /**
-     * Reactive reference to the loading state.
-     * @type {import('vue').Ref<boolean>}
-     */
-    const loading = ref(true);
-
-    /**
-     * Fetches the list of products from the API and updates the products ref.
-     * Sets the loading state to false once data is loaded.
-     * @async
-     */
-    const fetchProducts = async () => {
-      loading.value = true;
-      const response = await fetch('https://fakestoreapi.com/products');
-      const data = await response.json();
-      products.value = data;
-      loading.value = false;
-    };
-
-    /**
-     * Fetches the list of product categories from the API and updates the categories ref.
-     * @async
-     */
-    const fetchCategories = async () => {
-      const response = await fetch('https://fakestoreapi.com/products/categories');
-      const data = await response.json();
-      categories.value = data;
-    };
-
-    /**
-     * Triggered when the search button is clicked.
-     * This function does not perform any additional actions as the filtering is handled by the computed property.
-     */
-    const searchProducts = () => {
-      // This will trigger the computed property to recalculate
-    };
-
-    /**
-     * Computed property that returns the filtered and sorted list of products based on
-     * selected category, search query, and sorting order.
-     * @returns {Array<Product>} The filtered and sorted list of products.
-     */
-    const filteredProducts = computed(() => {
-      let prods = products.value;
-
-      if (selectedCategory.value) {
-        prods = prods.filter(product => product.category === selectedCategory.value);
-      }
-      if (sortOrder.value === 'asc') {
-        prods = prods.sort((a, b) => a.price - b.price);
-      } else if (sortOrder.value === 'desc') {
-        prods = prods.sort((a, b) => b.price - a.price);
-      } else if (sortOrder.value === 'default') {
-        prods = prods.sort((a, b) => a.id - b.id);
-      }
-
-      if (searchQuery.value) {
-        prods = prods.filter(product =>
-          product.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-        );
-      }
-      return prods;
-    });
-
-    /**
-     * Lifecycle hook that runs when the component is mounted.
-     * It fetches the products and categories data.
-     */
-    onMounted(() => {
-      fetchProducts();
-      fetchCategories();
-    });
-
-    return {
-      products,
-      categories,
-      searchQuery,
-      selectedCategory,
-      sortOrder,
-      loading,
-      searchProducts,
-      filteredProducts
-    };
+// Fetches the list of products from the API
+const fetchProducts = async () => {
+  loading.value = true;
+  try {
+    const response = await fetch('https://fakestoreapi.com/products');
+    const data = await response.json();
+    products.value = data;
+  } catch (error) {
+    console.error('Failed to fetch products', error);
+  } finally {
+    loading.value = false;
   }
 };
+
+// Fetches the list of product categories from the API
+const fetchCategories = async () => {
+  try {
+    const response = await fetch('https://fakestoreapi.com/products/categories');
+    const data = await response.json();
+    categories.value = data;
+  } catch (error) {
+    console.error('Failed to fetch categories', error);
+  }
+};
+
+// Triggered when the search button is clicked
+const searchProducts = () => {
+  // This will trigger the computed property to recalculate
+};
+
+// Computed property that returns the filtered and sorted list of products
+const filteredProducts = computed(() => {
+  let prods = [...products.value];
+
+  if (selectedCategory.value) {
+    prods = prods.filter(product => product.category === selectedCategory.value);
+  }
+
+  if (sortOrder.value === 'asc') {
+    prods = prods.sort((a, b) => a.price - b.price);
+  } else if (sortOrder.value === 'desc') {
+    prods = prods.sort((a, b) => b.price - a.price);
+  } else if (sortOrder.value === 'default') {
+    prods = prods.sort((a, b) => a.id - b.id);
+  }
+
+  if (searchQuery.value) {
+    prods = prods.filter(product =>
+      product.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  }
+
+  return prods;
+});
+
+// Lifecycle hook that runs when the component is mounted
+onMounted(() => {
+  fetchProducts();
+  fetchCategories();
+});
 </script>
+
+<style scoped>
+/* Add any component-specific styles here */
+</style>
