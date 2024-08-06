@@ -1,10 +1,14 @@
-<script setup>
-</script>
-
 <template>
-  <main>
-  </main>
-</template>
+    <div class="loading text-center text-2xl justify-center items-center">
+      Loading...
+    </div>
+  </template>
+  
+  <script>
 
-<style scoped>
-</style>
+    export default {
+    name: 'LoadingComponent',
+  };
+  </script>
+  
+  
