@@ -9,7 +9,7 @@
       
       <!-- Navigation links for larger screens -->
       <div class="hidden md:flex">
-        <a href="/" class="mr-4 hover:underline" >Wishlist</a>
+        <a href="/" class="mr-4 hover:underline">Wishlist</a>
         <a href="./" class="mr-4 hover:underline">Cart</a>
         <a href="./" class="mr-4 hover:underline">
           <svg width="32px" height="32px" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,8 +54,15 @@ export default {
   name: 'Navbar',
 
   setup() {
+    /**
+     * Reactive reference to track the state of the mobile menu.
+     * @type {import('vue').Ref<Boolean>}
+     */
     const open = ref(false);
 
+    /**
+     * Toggles the state of the mobile menu.
+     */
     const toggleMenu = () => {
       open.value = !open.value;
     };
@@ -67,3 +74,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Add any component-specific styles here */
+</style>
