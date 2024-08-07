@@ -121,6 +121,8 @@ onMounted(() => {
   fetchProducts();
   fetchCategories();
 });
+
+
 </script>
 
 <style scoped>
