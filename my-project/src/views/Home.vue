@@ -48,20 +48,46 @@ import { ref, onMounted, computed } from 'vue';
 import Loading from '../components/Loading.vue';
 import ProductGrid from '../components/ProductGrid.vue';
 
-// Reactive reference to the list of products
+/**
+ * Reactive reference to the list of products.
+ * @type {import('vue').Ref<Array<Object>>}
+ */
 const products = ref([]);
-// Reactive reference to the list of product categories
+
+/**
+ * Reactive reference to the list of product categories.
+ * @type {import('vue').Ref<Array<String>>}
+ */
 const categories = ref([]);
-// Reactive reference to the search query input value
+
+/**
+ * Reactive reference to the search query input value.
+ * @type {import('vue').Ref<String>}
+ */
 const searchQuery = ref('');
-// Reactive reference to the selected category filter value
+
+/**
+ * Reactive reference to the selected category filter value.
+ * @type {import('vue').Ref<String>}
+ */
 const selectedCategory = ref('');
-// Reactive reference to the sorting order value
+
+/**
+ * Reactive reference to the sorting order value.
+ * @type {import('vue').Ref<String>}
+ */
 const sortOrder = ref('');
-// Reactive reference to the loading state
+
+/**
+ * Reactive reference to the loading state.
+ * @type {import('vue').Ref<Boolean>}
+ */
 const loading = ref(true);
 
-// Fetches the list of products from the API
+/**
+ * Fetches the list of products from the API.
+ * @returns {Promise<void>}
+ */
 const fetchProducts = async () => {
   loading.value = true;
   try {
@@ -75,7 +101,10 @@ const fetchProducts = async () => {
   }
 };
 
-// Fetches the list of product categories from the API
+/**
+ * Fetches the list of product categories from the API.
+ * @returns {Promise<void>}
+ */
 const fetchCategories = async () => {
   try {
     const response = await fetch('https://fakestoreapi.com/products/categories');
@@ -86,12 +115,17 @@ const fetchCategories = async () => {
   }
 };
 
-// Triggered when the search button is clicked
+/**
+ * Triggered when the search button is clicked.
+ */
 const searchProducts = () => {
   // This will trigger the computed property to recalculate
 };
 
-// Computed property that returns the filtered and sorted list of products
+/**
+ * Computed property that returns the filtered and sorted list of products.
+ * @returns {import('vue').ComputedRef<Array<Object>>}
+ */
 const filteredProducts = computed(() => {
   let prods = [...products.value];
 
@@ -121,7 +155,6 @@ onMounted(() => {
   fetchProducts();
   fetchCategories();
 });
-
 
 </script>
 
