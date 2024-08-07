@@ -102,6 +102,5 @@ const addToCart = (productId) => {
 
 <style scoped>
 .card-container {
-  /* Add any specific styles for card-container if needed */
 }
 </style>
