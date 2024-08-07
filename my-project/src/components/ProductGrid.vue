@@ -40,7 +40,22 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-// Define the props for the component
+/**
+ * @typedef {Object} Product
+ * @property {number} id - The unique identifier for the product.
+ * @property {string} image - The URL of the product image.
+ * @property {string} title - The title of the product.
+ * @property {number} price - The price of the product.
+ * @property {string} category - The category of the product.
+ * @property {Object} rating - The rating object of the product.
+ * @property {number} rating.rate - The average rating of the product.
+ * @property {number} rating.count - The number of reviews for the product.
+ */
+
+/**
+ * Props for the component
+ * @type {{products: Array<Product>}}
+ */
 const props = defineProps({
   products: {
     type: Array,
@@ -48,10 +63,16 @@ const props = defineProps({
   }
 });
 
-// Reactive reference for favorites
+/**
+ * Reactive reference for favorite products
+ * @type {import('vue').Ref<Array<number>>}
+ */
 const favorites = ref([]);
 
-// Function to toggle favorite status
+/**
+ * Toggles the favorite status of a product.
+ * @param {number} productId - The ID of the product to toggle.
+ */
 const toggleFavorite = (productId) => {
   const index = favorites.value.indexOf(productId);
   if (index > -1) {
@@ -63,12 +84,19 @@ const toggleFavorite = (productId) => {
   localStorage.setItem('favorites', JSON.stringify(favorites.value));
 };
 
-// Function to check if a product is a favorite
+/**
+ * Checks if a product is in the favorites list.
+ * @param {number} productId - The ID of the product to check.
+ * @returns {boolean} True if the product is a favorite, false otherwise.
+ */
 const isFavorite = (productId) => {
   return favorites.value.includes(productId);
 };
 
-// Function to add a product to the cart
+/**
+ * Adds a product to the cart.
+ * @param {number} productId - The ID of the product to add to the cart.
+ */
 const addToCart = (productId) => {
   // Implement your add to cart logic here
   console.log(`Product ${productId} added to cart`);
