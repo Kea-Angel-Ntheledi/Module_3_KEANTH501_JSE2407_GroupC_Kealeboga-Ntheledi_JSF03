@@ -30,9 +30,6 @@ import { ref, onMounted } from 'vue';
 
 export default {
   name: 'ProductDetail',
-  components: {
-    
-  },
   props: {
     id: {
       type: [String, Number],
@@ -44,6 +41,12 @@ export default {
     const error = ref(null);
     const loading = ref(false);
 
+    /**
+     * Fetch product details from the API.
+     * @function
+     * @param {String|Number} productId - The ID of the product to fetch details for.
+     * @returns {Promise<Object>} The product details and error if any.
+     */
     const getProductDetails = async (productId) => {
       try {
         const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
@@ -76,4 +79,3 @@ export default {
   }
 };
 </script>
-
