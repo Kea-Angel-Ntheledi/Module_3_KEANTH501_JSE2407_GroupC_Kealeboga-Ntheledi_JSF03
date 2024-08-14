@@ -30,6 +30,7 @@
       </button>
     </div>
     
+    
     <!-- Mobile menu for smaller screens -->
     <div v-if="open" class="md:hidden mt-4 bg-gray-300">
       <a href="/" class="block p-2 hover:bg-gray-200">Wishlist</a>
