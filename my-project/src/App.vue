@@ -14,7 +14,7 @@
  * It includes a Navbar and a router-view for rendering matched components based on the current route.
  */
 
-import Navbar from './components/Navbar.vue';
+import Navbar from './components/NavBar.vue';
 
 /**
  * Main layout component for the application.
