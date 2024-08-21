@@ -7,7 +7,7 @@
           <div class="card-content p-4 flex flex-col flex-grow">
             <h3 class="text-lg font-bold mb-2">{{ product.title }}</h3>
             <p class="text-gray-700 mb-2 font-bold">${{ product.price }}</p>
-            <p class="text-gray-500">{{ product.category }}</p>
+            <p class="text-blue-500">{{ product.category }}</p>
             <p class="text-gray-700 mb-4">
               Rating: {{ product.rating.rate }} ({{ product.rating.count }} reviews)
             </p>
@@ -19,7 +19,7 @@
               </button>
               <button 
                 @click="addToCart(product)"
-                class="bg-gray-900 hover:bg-gray-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 transition duration-200">
+                class="bg-blue-900 hover:bg-blue-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
                 Add To Cart
               </button>
             </div>

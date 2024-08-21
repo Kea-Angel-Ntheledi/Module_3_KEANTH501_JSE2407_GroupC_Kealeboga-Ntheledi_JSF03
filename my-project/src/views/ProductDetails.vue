@@ -25,7 +25,7 @@
         <p class="mt-2 text-center text-gray-700 mb-3">{{ product.description }}</p>
         <h2 class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug mb-3">$ {{ product.price }}</h2>
         <div class="justify-start flex-1 mt-2 mb-3">
-          <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-700/10">{{ product.category }}</span>
+          <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">{{ product.category }}</span>
         </div>
         <p class="mt-2 text-gray-700 mb-3">⭐ {{ product.rating?.rate }}</p>
         <p class="mt-1 text-gray-700 mb-3">Reviews: {{ product.rating?.count }}</p>

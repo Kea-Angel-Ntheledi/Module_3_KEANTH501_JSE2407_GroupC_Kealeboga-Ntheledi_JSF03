@@ -26,6 +26,16 @@
       </div>
     </div>
   </div>
+
+  <div v-if="showLoginPopup" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+    <div class="bg-white p-8 rounded shadow-lg">
+      <h2 class="text-2xl font-bold mb-4">Log In First</h2>
+      <p class="mb-4">You need to log in to add items to the cart.</p>
+      <button @click="closeLoginPopup" class="bg-gray-800 hover:bg-gray-300 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-[#DAA520] focus:ring-opacity-75 transition duration-200">
+        OK
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -42,6 +52,7 @@ export default {
   setup(props) {
     const favorites = ref([]);
     const cart = ref([]);
+    const showLoginPopup = ref(false);
 
     onMounted(() => {
       const storedFavorites = localStorage.getItem('favorites');
@@ -68,20 +79,27 @@ export default {
       return favorites.value.includes(productId);
     };
 
-    const addToCart = (product) => {
-      const index = cart.value.findIndex(item => item.id === product.id);
-      if (index === -1) {
-        cart.value.push({ ...product, quantity: 1 });
-      } else {
-        cart.value[index].quantity += 1;
+    const addToCart = () => {
+      const jwt = localStorage.getItem('jwt');
+      if (!jwt) {
+        showLoginPopup.value = true;
+        return;
       }
-      localStorage.setItem('cart', JSON.stringify(cart.value));
+
+      // Add the item to the cart
+      // ...
+    };
+
+    const closeLoginPopup = () => {
+      showLoginPopup.value = false;
     };
 
     return {
       toggleFavorite,
       isFavorite,
-      addToCart
+      addToCart,
+      closeLoginPopup,
+      showLoginPopup
     };
   }
 };

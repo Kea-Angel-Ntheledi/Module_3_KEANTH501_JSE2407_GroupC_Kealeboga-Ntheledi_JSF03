@@ -1,7 +1,7 @@
 <template>
-    <header class="sticky z-50 top-0 w-full bg-gray-400 p-4 lg:mb-4 text-gray-300 shadow-lg">
+    <header class="sticky z-50 top-0 w-full bg-gray-600 p-4 lg:mb-4 text-white shadow-lg">
       <div class="container mx-auto flex justify-between items-center">
-        <a href="/"><img src='../assets/favicon.ico' alt='logo'>
+        <a href="/"><img src='../assets/online-shop.png' alt='logo' style="width: 30px">
            <div class="text-lg font-bold">
               myCart
            </div> 
@@ -66,7 +66,7 @@
             />
           </svg>
         </a>
-        <a href="./" class="block p-2 hover:bg-gray-400"><button>Login</button></a>
+        <a href="./" class="block p-2 hover:bg-pink-400"><button>Login</button></a>
       </div>
     </header>
   </template>
