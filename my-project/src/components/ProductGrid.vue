@@ -38,69 +38,69 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue';
 
-export default {
-  name: 'ProductGrid',
-  props: {
-    products: {
-      type: Array,
-      required: true
-    }
-  },
-  setup(props) {
-    const favorites = ref([]);
-    const cart = ref([]);
-    const showLoginPopup = ref(false);
-
-    onMounted(() => {
-      const storedFavorites = localStorage.getItem('favorites');
-      if (storedFavorites) {
-        favorites.value = JSON.parse(storedFavorites);
-      }
-      const storedCart = localStorage.getItem('cart');
-      if (storedCart) {
-        cart.value = JSON.parse(storedCart);
-      }
-    });
-
-    const toggleFavorite = (productId) => {
-      const index = favorites.value.indexOf(productId);
-      if (index > -1) {
-        favorites.value.splice(index, 1);
-      } else {
-        favorites.value.push(productId);
-      }
-      localStorage.setItem('favorites', JSON.stringify(favorites.value));
-    };
-
-    const isFavorite = (productId) => {
-      return favorites.value.includes(productId);
-    };
-
-    const addToCart = () => {
-      const jwt = localStorage.getItem('jwt');
-      if (!jwt) {
-        showLoginPopup.value = true;
-        return;
-      }
-
-      // Add the item to the cart
-      // ...
-    };
-
-    const closeLoginPopup = () => {
-      showLoginPopup.value = false;
-    };
-
-    return {
-      toggleFavorite,
-      isFavorite,
-      addToCart,
-      closeLoginPopup,
-      showLoginPopup
-    };
+const props = defineProps({
+  products: {
+    type: Array,
+    required: true
   }
+});
+
+const favorites = ref([]);
+const cart = ref([]);
+const showLoginPopup = ref(false);
+
+onMounted(() => {
+  const storedFavorites = localStorage.getItem('favorites');
+  if (storedFavorites) {
+    favorites.value = JSON.parse(storedFavorites);
+  }
+  const storedCart = localStorage.getItem('cart');
+  if (storedCart) {
+    cart.value = JSON.parse(storedCart);
+  }
+});
+
+const toggleFavorite = (productId) => {
+  const index = favorites.value.indexOf(productId);
+  if (index > -1) {
+    favorites.value.splice(index, 1);
+  } else {
+    favorites.value.push(productId);
+  }
+  localStorage.setItem('favorites', JSON.stringify(favorites.value));
+};
+
+const isFavorite = (productId) => {
+  return favorites.value.includes(productId);
+};
+
+const addToCart = (product) => {
+  const jwt = localStorage.getItem('jwt');
+  if (!jwt) {
+    showLoginPopup.value = true;
+    return;
+  }
+
+  let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  const index = cartItems.findIndex(item => item.id === product.id);
+  if (index > -1) {
+    cartItems[index].quantity += 1;
+  } else {
+    cartItems.push({ ...product, quantity: 1 });
+  }
+  localStorage.setItem('cart', JSON.stringify(cartItems));
+};
+
+const closeLoginPopup = () => {
+  showLoginPopup.value = false;
 };
 </script>
+
+<style scoped>
+.card-container {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+</style>
