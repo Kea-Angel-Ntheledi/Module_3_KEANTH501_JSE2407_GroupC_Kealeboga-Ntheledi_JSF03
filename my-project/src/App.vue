@@ -8,27 +8,6 @@
   </div>
 </template>
 
-<script>
-/**
- * @fileoverview This is the main layout component for the application.
- * It includes a Navbar and a router-view for rendering matched components based on the current route.
- */
-
+<script setup>
 import Navbar from './components/NavBar.vue';
-
-/**
- * Main layout component for the application.
- * It includes the Navbar component and the router-view.
- *
- * @component
- */
-export default {
-  components: {
-    /** 
-     * The Navbar component used for navigation throughout the app.
-     * @type {import('./components/Navbar.vue').default}
-     */
-    Navbar
-  }
-};
 </script>
