@@ -27,3 +27,14 @@ Here are example use cases for this application:
   A user can search for products by typing in the search bar and clicking the "search"     button.
 - # Product filtering:
     A user can filter products by category, price, and rating by using the filter options on the product list page.
+
+
+
+
+
+
+
+
+## Deployment
+- Vercel: https://module-4-keanth-501-jse-2407-group-c-kealeboga-a-cx2rkzf7j.vercel.app/
+-Netlify: 
