@@ -3,7 +3,7 @@
       <div class="container mx-auto flex justify-between items-center">
         <a href="/"><img src='../assets/online-shop.png' alt='logo' style="width: 30px">
            <div class="text-lg font-bold">
-              myCart
+              SwiftCart
            </div> 
         </a>  
         <div class="hidden md:flex">
