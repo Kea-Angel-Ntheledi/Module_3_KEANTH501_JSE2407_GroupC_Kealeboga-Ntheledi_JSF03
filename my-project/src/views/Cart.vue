@@ -54,24 +54,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 
-/**
- * @typedef {Object} Product
- * @property {number} id - The unique identifier of the product.
- * @property {string} title - The name of the product.
- * @property {string} image - The image URL of the product.
- * @property {number} price - The price of the product.
- * @property {number} quantity - The quantity of the product in the cart.
- */
-
-/**
- * @description Array to store the cart items.
- * @type {import('vue').Ref<Product[]>}
- */
 const cartItems = ref([]);
 
-/**
- * @description Fetches the cart items from local storage when the component is mounted.
- */
 const fetchCartItems = () => {
   const storedCart = localStorage.getItem('cart');
   if (storedCart) {
@@ -79,15 +63,8 @@ const fetchCartItems = () => {
   }
 };
 
-/**
- * @description Called when the component is mounted, fetches the cart items.
- */
 onMounted(fetchCartItems);
 
-/**
- * @description Increments the quantity of a product in the cart.
- * @param {Product} product - The product whose quantity should be increased.
- */
 const incrementQ = (product) => {
   const index = cartItems.value.findIndex(item => item.id === product.id);
   if (index !== -1) {
@@ -96,10 +73,6 @@ const incrementQ = (product) => {
   }
 };
 
-/**
- * @description Decrements the quantity of a product in the cart. If the quantity reaches 1, it will not go below.
- * @param {Product} product - The product whose quantity should be decreased.
- */
 const decrementQ = (product) => {
   const index = cartItems.value.findIndex(item => item.id === product.id);
   if (index !== -1 && cartItems.value[index].quantity > 1) {
@@ -108,10 +81,6 @@ const decrementQ = (product) => {
   }
 };
 
-/**
- * @description Removes a product from the cart.
- * @param {Product} product - The product to be removed.
- */
 const removeFromCart = (product) => {
   const index = cartItems.value.findIndex(item => item.id === product.id);
   if (index !== -1) {
@@ -120,23 +89,16 @@ const removeFromCart = (product) => {
   }
 };
 
-/**
- * @description Clears all items from the cart and removes them from local storage.
- */
 const clearCart = () => {
   cartItems.value = [];
   localStorage.removeItem('cart');
 };
 
-/**
- * @description Computes the total price of all items in the cart.
- * @returns {number} The total price of the cart items.
- */
 const total = computed(() => {
   return cartItems.value.reduce((acc, item) => acc + item.price * item.quantity, 0);
 });
 </script>
 
 <style scoped>
-/* Add your custom styles here */
+/* Your styles here */
 </style>
