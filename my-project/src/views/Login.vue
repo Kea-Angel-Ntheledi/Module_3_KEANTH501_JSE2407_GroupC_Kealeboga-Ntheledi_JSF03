@@ -36,71 +36,120 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-export default {
-  setup() {
-    const username = ref('');
-    const password = ref('');
-    const passwordFieldType = ref('password');
-    const loading = ref(false);
-    const error = ref(null);
-    const router = useRouter();
+/**
+ * Setup function for the Login component
+ *
+ * This component provides a form for users to sign in to their accounts.
+ * It includes form validation, password visibility toggle, and handling API calls for login.
+ */
 
-    const togglePasswordVisibility = () => {
-      passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password';
-    };
+// Reactive references for form inputs and state management
+/**
+ * Username entered by the user.
+ * @type {import('vue').Ref<string>}
+ */
+const username = ref('');
 
-    const handleLogin = async () => {
-      if (!username.value || !password.value) {
-        error.value = 'Username and password are required';
-        return;
-      }
+/**
+ * Password entered by the user.
+ * @type {import('vue').Ref<string>}
+ */
+const password = ref('');
 
-      loading.value = true;
-      error.value = null;
+/**
+ * Field type for password input (either 'password' or 'text').
+ * @type {import('vue').Ref<string>}
+ */
+const passwordFieldType = ref('password');
 
-      try {
-        const response = await fetch('https://fakestoreapi.com/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username: username.value,
-            password: password.value
-          })
-        });
+/**
+ * Loading state to show while login is being processed.
+ * @type {import('vue').Ref<boolean>}
+ */
+const loading = ref(false);
 
-        if (!response.ok) {
-          throw new Error('Login failed');
-        }
+/**
+ * Error message to display if login fails.
+ * @type {import('vue').Ref<string | null>}
+ */
+const error = ref(null);
 
-        const data = await response.json();
-        console.log(data); // To view the response from the API
+/**
+ * Vue Router instance for navigation.
+ * @type {import('vue-router').Router}
+ */
+const router = useRouter();
 
-        localStorage.setItem('jwt', data.token);
+/**
+ * Toggles the visibility of the password field.
+ * If the password is currently hidden, this function will show it, and vice versa.
+ */
+const togglePasswordVisibility = () => {
+  passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password';
+};
 
-        const redirectPath = localStorage.getItem('redirectPath') || '/';
-        router.push(redirectPath);
-      } catch (err) {
-        error.value = 'Login failed. Please check your credentials.';
-      } finally {
-        loading.value = false;
-      }
-    };
+/**
+ * Handles the login form submission.
+ * This function sends a login request to the Fake Store API and handles the response.
+ * If the login is successful, the user is redirected to the desired page.
+ * If the login fails, an error message is shown.
+ * 
+ * @returns {Promise<void>}
+ */
+const handleLogin = async () => {
+  // Ensure both username and password are provided
+  if (!username.value || !password.value) {
+    error.value = 'Username and password are required';
+    return;
+  }
 
-    return {
-      username,
-      password,
-      passwordFieldType,
-      loading,
-      error,
-      togglePasswordVisibility,
-      handleLogin
-    };
+  // Reset error and set loading state
+  loading.value = true;
+  error.value = null;
+
+  try {
+    // Make login request to the Fake Store API
+    const response = await fetch('https://fakestoreapi.com/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username.value,
+        password: password.value
+      })
+    });
+
+    // Check for failed response
+    if (!response.ok) {
+      throw new Error('Login failed');
+    }
+
+    // Parse the response data
+    const data = await response.json();
+    console.log(data); // Debugging: Log the API response
+
+    // Store JWT token in localStorage
+    localStorage.setItem('jwt', data.token);
+
+    // Redirect to the desired path after login
+    const redirectPath = localStorage.getItem('redirectPath') || '/';
+    router.push(redirectPath);
+  } catch (err) {
+    // Handle login error
+    error.value = 'Login failed. Please check your credentials.';
+  } finally {
+    // Reset loading state
+    loading.value = false;
   }
 };
+
 </script>
+
+<style scoped>
+/* Add specific styles for the Login component */
+</style>

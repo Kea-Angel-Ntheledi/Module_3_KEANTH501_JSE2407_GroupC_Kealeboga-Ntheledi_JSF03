@@ -1,10 +1,10 @@
 <template>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div v-for="product in products" :key="product.id" class="card-container bg-white shadow-md rounded-lg overflow-hidden border p-4 cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:scale-105 duration-300 flex flex-col h-full">
+    <div v-for="product in products" :key="product.id" class="card-container bg-white shadow-md rounded-lg overflow-hidden border border-gray-400 p-4 cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:scale-105 duration-300 flex flex-col h-full">
       <router-link :to="`/product/${product.id}`" class="flex justify-center items-center">
         <img :src="product.image" :alt="product.title" class="w-400px h-48 object-cover mb-5 rounded" />
       </router-link>
-      <div class="card-content p-4 flex flex-col flex-grow">
+      <div class="card-content p-4 flex flex-col flex-grow border">
         <h3 class="text-lg font-bold mb-2">{{ product.title }}</h3>
         <p class="text-gray-700 mb-2 font-bold">${{ product.price }}</p>
         <p class="text-gray-500">{{ product.category }}</p>
@@ -41,6 +41,21 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+/**
+ * @typedef {Object} Product
+ * @property {number} id - The product ID.
+ * @property {string} image - The URL of the product image.
+ * @property {string} title - The title of the product.
+ * @property {number} price - The price of the product.
+ * @property {string} category - The category of the product.
+ * @property {Object} rating - The rating object.
+ * @property {number} rating.rate - The rating score.
+ * @property {number} rating.count - The number of reviews.
+ */
+
+/**
+ * Props received from the parent component.
+ */
 const props = defineProps({
   products: {
     type: Array,
@@ -48,10 +63,27 @@ const props = defineProps({
   }
 });
 
+/**
+ * @description State for tracking favorite products.
+ * @type {import('vue').Ref<number[]>}
+ */
 const favorites = ref([]);
+
+/**
+ * @description State for tracking cart items.
+ * @type {import('vue').Ref<Object[]>}
+ */
 const cart = ref([]);
+
+/**
+ * @description State for controlling the login popup visibility.
+ * @type {import('vue').Ref<boolean>}
+ */
 const showLoginPopup = ref(false);
 
+/**
+ * Fetch data from local storage for favorites and cart when the component is mounted.
+ */
 onMounted(() => {
   const storedFavorites = localStorage.getItem('favorites');
   if (storedFavorites) {
@@ -63,6 +95,11 @@ onMounted(() => {
   }
 });
 
+/**
+ * @function toggleFavorite
+ * @description Adds or removes a product from the favorites list.
+ * @param {number} productId - The ID of the product to toggle.
+ */
 const toggleFavorite = (productId) => {
   const index = favorites.value.indexOf(productId);
   if (index > -1) {
@@ -73,10 +110,22 @@ const toggleFavorite = (productId) => {
   localStorage.setItem('favorites', JSON.stringify(favorites.value));
 };
 
+/**
+ * @function isFavorite
+ * @description Checks if a product is in the favorites list.
+ * @param {number} productId - The ID of the product to check.
+ * @returns {boolean} Whether the product is in the favorites list or not.
+ */
 const isFavorite = (productId) => {
   return favorites.value.includes(productId);
 };
 
+/**
+ * @function addToCart
+ * @description Adds a product to the cart, if the user is authenticated.
+ * If not authenticated, shows a login prompt.
+ * @param {Product} product - The product to add to the cart.
+ */
 const addToCart = (product) => {
   const jwt = localStorage.getItem('jwt');
   if (!jwt) {
@@ -94,6 +143,10 @@ const addToCart = (product) => {
   localStorage.setItem('cart', JSON.stringify(cartItems));
 };
 
+/**
+ * @function closeLoginPopup
+ * @description Closes the login popup.
+ */
 const closeLoginPopup = () => {
   showLoginPopup.value = false;
 };
@@ -102,5 +155,6 @@ const closeLoginPopup = () => {
 <style scoped>
 .card-container {
   transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #cbd5e0; /* gray-400 */
 }
 </style>

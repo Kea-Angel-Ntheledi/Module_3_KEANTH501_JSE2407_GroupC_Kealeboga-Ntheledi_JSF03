@@ -2,17 +2,54 @@ import { defineStore } from 'pinia';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
+/**
+ * @typedef {Object} Product
+ * @property {number} id - The unique identifier for the product.
+ * @property {string} title - The name of the product.
+ * @property {string} image - URL of the product image.
+ * @property {string} category - The category of the product.
+ * @property {number} price - The price of the product.
+ * @property {Object} rating - The rating of the product.
+ * @property {number} quantity - The quantity of the product in the cart.
+ */
+
+/**
+ * @description Defines a Pinia store for managing shopping-related data such as products and cart items.
+ */
 export const useShoppingStore = defineStore('shopping', {
   state: () => ({
+    /**
+     * @type {Product[]} Array of products fetched from the API.
+     */
     products: [],
+
+    /**
+     * @type {Product[]} Array of products added to the cart.
+     */
     cartItems: [],
   }),
+
   getters: {
+    /**
+     * @description Returns the count of items in the cart.
+     * @param {Object} state - The state of the store.
+     * @returns {number} The number of items in the cart.
+     */
     countCartItems: (state) => state.cartItems.length,
+
+    /**
+     * @description Returns the cart items.
+     * @param {Object} state - The state of the store.
+     * @returns {Product[]} Array of products in the cart.
+     */
     getCartItems: (state) => state.cartItems,
   },
+
   actions: {
-    // Fetch products from the API
+    /**
+     * @description Fetches products from an external API and updates the state with the fetched data.
+     * @returns {Promise<void>} A promise that resolves once the products have been fetched.
+     */
     async fetchProducts() {
       try {
         const response = await axios.get('https://fakestoreapi.com/products');
@@ -21,7 +58,11 @@ export const useShoppingStore = defineStore('shopping', {
         console.error('Failed to fetch products:', error);
       }
     },
-    // Add an item to the cart
+
+    /**
+     * @description Adds a product to the cart or updates the quantity if it already exists.
+     * @param {Product} item - The product to add to the cart.
+     */
     addToCart(item) {
       const index = this.cartItems.findIndex(product => product.id === item.id);
       if (index !== -1) {
@@ -32,7 +73,11 @@ export const useShoppingStore = defineStore('shopping', {
         this.showNotification('success', 'Your item has been added to the cart');
       }
     },
-    // Increment the quantity of an item in the cart
+
+    /**
+     * @description Increases the quantity of a product in the cart.
+     * @param {Product} item - The product whose quantity should be increased.
+     */
     incrementQ(item) {
       const index = this.cartItems.findIndex(product => product.id === item.id);
       if (index !== -1) {
@@ -40,7 +85,11 @@ export const useShoppingStore = defineStore('shopping', {
         this.showNotification('success', 'Item quantity has been increased');
       }
     },
-    // Decrement the quantity of an item in the cart
+
+    /**
+     * @description Decreases the quantity of a product in the cart. If the quantity reaches zero, the product is removed.
+     * @param {Product} item - The product whose quantity should be decreased.
+     */
     decrementQ(item) {
       const index = this.cartItems.findIndex(product => product.id === item.id);
       if (index !== -1) {
@@ -53,7 +102,11 @@ export const useShoppingStore = defineStore('shopping', {
         }
       }
     },
-    // Remove an item from the cart
+
+    /**
+     * @description Removes a product from the cart.
+     * @param {Product} item - The product to remove from the cart.
+     */
     removeFromCart(item) {
       const index = this.cartItems.findIndex(product => product.id === item.id);
       if (index !== -1) {
@@ -61,7 +114,12 @@ export const useShoppingStore = defineStore('shopping', {
         this.showNotification('success', 'Item has been removed from the cart');
       }
     },
-    // Show notification using Swal
+
+    /**
+     * @description Displays a notification using SweetAlert.
+     * @param {string} icon - The type of notification (e.g., 'success', 'error').
+     * @param {string} title - The message to display in the notification.
+     */
     showNotification(icon, title) {
       Swal.fire({
         position: 'top-end',
