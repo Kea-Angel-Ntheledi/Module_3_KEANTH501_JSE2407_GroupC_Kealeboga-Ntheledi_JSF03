@@ -1,4 +1,4 @@
-## Module 3-JSF03 Vue challange:
+## Module 4-JSF04 Vue challange:
 
 ## Introduction:
 Welcome to the JSF 04 Vue Challenge! This project is a comprehensive E-commerce application built with Vue.
@@ -21,6 +21,7 @@ This project utilizes the following technologies:
 2. Browse products: Browse through the list of products and click on a product to view its details.
 3. You may mark an item as a favourites by clicking on the "like" button.
 4. You can add items to the cart and you can remove them individually. You can also clear the cart
+5. User cannnot see the product details nor add to cart without loggin in:
 
 ## Example use cases:
 Here are example use cases for this application:
@@ -28,6 +29,10 @@ Here are example use cases for this application:
   A user can search for products by typing in the search bar and clicking the "search"     button.
 - # Product filtering:
     A user can filter products by category, price, and rating by using the filter options on the product list page.
+
+
+Loom video link:
+https://youtu.be/Z5HMRS9dULs
 
 
 
